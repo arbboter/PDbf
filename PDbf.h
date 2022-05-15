@@ -34,47 +34,47 @@
 #define MMax(a, b) ( (a)>(b) ? (a):(b) )
 #define MMin(a, b) ( (a)<(b) ? (a):(b) )
 
-// DBF½Ó¿Ú
+// DBFæ¥å£
 class CIDbf
 {
 public:
-    // ´íÎóÂë
+    // é”™è¯¯ç 
     enum ERetCode
     {
-        DBF_SUCC,           // ³É¹¦
-        DBF_ERROR,          // ´íÎó
-        DBF_FILE_ERROR,     // ÎÄ¼ş´íÎó
-        DBF_PARA_ERROR,     // ²ÎÊı´íÎó
-        DBF_CACHE_ERROR,    // »º´æ´íÎó
+        DBF_SUCC,           // æˆåŠŸ
+        DBF_ERROR,          // é”™è¯¯
+        DBF_FILE_ERROR,     // æ–‡ä»¶é”™è¯¯
+        DBF_PARA_ERROR,     // å‚æ•°é”™è¯¯
+        DBF_CACHE_ERROR,    // ç¼“å­˜é”™è¯¯
     };
-    // ÅĞ¶ÏÎÄ¼şÊÇ·ñ´ò¿ª
+    // åˆ¤æ–­æ–‡ä»¶æ˜¯å¦æ‰“å¼€
     virtual bool IsOpen() = 0;
 
-    // ´ò¿ªÎÄ¼ş
+    // æ‰“å¼€æ–‡ä»¶
     virtual int Open(const std::string& strFile, bool bReadOnly = true) = 0;
 
-    // ¹Ø±ÕDBFÎÄ¼ş
+    // å…³é—­DBFæ–‡ä»¶
     virtual void Close() = 0;
 
-    // ÎÄ¼ş¼ÇÂ¼ĞĞ
+    // æ–‡ä»¶è®°å½•è¡Œ
     virtual size_t GetRecNum() = 0;
-    // ×Ö¶ÎÊı
+    // å­—æ®µæ•°
     virtual size_t GetFieldNum() = 0;
 
-    // Ö±½Ó²Ù×÷ÎÄ¼ş£¬ĞÔÄÜµÍ£¬¼ÇÂ¼ºÅÊ×ĞĞÎª0
+    // ç›´æ¥æ“ä½œæ–‡ä»¶ï¼Œæ€§èƒ½ä½ï¼Œè®°å½•å·é¦–è¡Œä¸º0
     virtual std::string ReadString(size_t nRecNo, const std::string& strName) = 0;
     virtual int WriteString(size_t nRecNo, const std::string& strName, const std::string& strValue) = 0;
     virtual int ReadField(size_t nRecNo, size_t nCol, std::string& strValue) = 0;
     virtual int Append(size_t nAppendNum) = 0;
     virtual int WriteField(size_t nRecNo, size_t nCol, const std::string& strValue) = 0;
 
-    // »º´æ´¦Àí£¬ĞÔÄÜ¸ß
-    // ¶ÁÈ¡ÎÄ¼ş¼ÇÂ¼
-    // ¶ÁÈ¡¼ÇÂ¼ĞĞµ½»º´æ
+    // ç¼“å­˜å¤„ç†ï¼Œæ€§èƒ½é«˜
+    // è¯»å–æ–‡ä»¶è®°å½•
+    // è¯»å–è®°å½•è¡Œåˆ°ç¼“å­˜
     virtual int Read(int nRecNo, int nRecNum) = 0;
-    // ÉèÖÃ¶ÁÖ¸Õë, ´Ó0¿ªÊ¼, »º´æ¼ÇÂ¼ĞĞĞĞÊı
+    // è®¾ç½®è¯»æŒ‡é’ˆ, ä»0å¼€å§‹, ç¼“å­˜è®°å½•è¡Œè¡Œæ•°
     virtual int ReadGo(int nRec) = 0;
-    // ¶ÁÈ¡×Ö¶Î
+    // è¯»å–å­—æ®µ
     virtual std::string ReadString(const std::string& strName) = 0;
     virtual double ReadDouble(const std::string& strName) = 0;
     virtual int ReadInt(const std::string& strName) = 0;
@@ -88,29 +88,29 @@ public:
     virtual int ReadInt(size_t nCol, int& nValue) = 0;
     virtual int ReadLong(size_t nCol, long& nValue) = 0;
 
-    // Ğ´ÎÄ¼ş¼ÇÂ¼
-    // Çå¿ÕÊı¾İ
+    // å†™æ–‡ä»¶è®°å½•
+    // æ¸…ç©ºæ•°æ®
     virtual int Zap() = 0;
-    // ÉêÇëĞ´ÈëÊı¾İ
+    // ç”³è¯·å†™å…¥æ•°æ®
     virtual int PrepareAppend(size_t nRecNum) = 0;
-    // Ìá½»Ğ´Êı¾İÊı¾İµ½ÎÄ¼ş
+    // æäº¤å†™æ•°æ®æ•°æ®åˆ°æ–‡ä»¶
     virtual int WriteCommit() = 0;
-    // Ìá½»Ğ´ÈëµÄÊı¾İµ½ÎÄ¼ş
+    // æäº¤å†™å…¥çš„æ•°æ®åˆ°æ–‡ä»¶
     virtual int FileCommit() = 0;
-    // ÉèÖÃĞ´Ö¸Õë, ´Ó0¿ªÊ¼, »º´æ¼ÇÂ¼ĞĞĞĞÊı
+    // è®¾ç½®å†™æŒ‡é’ˆ, ä»0å¼€å§‹, ç¼“å­˜è®°å½•è¡Œè¡Œæ•°
     virtual int WriteGo(int nRec) = 0;
-    // ¸ù¾İ×Ö¶ÎÃûĞ´×Ö¶ÎÊı¾İ
+    // æ ¹æ®å­—æ®µåå†™å­—æ®µæ•°æ®
     virtual int WriteString(const std::string& strName, const std::string& strValue) = 0;
     virtual int WriteDouble(const std::string& strName, double fValue) = 0;
     virtual int WriteInt(const std::string& strName, int nValue) = 0;
     virtual int WriteLong(const std::string& strName, long nValue) = 0;
-    // ¸ù¾İË÷ÒıĞ´
+    // æ ¹æ®ç´¢å¼•å†™
     virtual int WriteString(size_t nCol, const std::string& strValue) = 0;
     virtual int WriteDouble(size_t nCol, double fValue) = 0;
     virtual int WriteInt(size_t nCol, int nValue) = 0;
     virtual int WriteLong(size_t nCol, long nValue) = 0;
 
-    // ×Ö·û´®º¯Êı
+    // å­—ç¬¦ä¸²å‡½æ•°
     static std::string Ltrim(const std::string& s)
     {
         size_t nPos = 0;
@@ -144,10 +144,10 @@ public:
 
 };
 
-// DBFÎÄ¼şÀàĞÍ
+// DBFæ–‡ä»¶ç±»å‹
 enum EFV
 {
-    FV_NS = 0x00,       // ²»È·¶¨µÄÎÄ¼şÀàĞÍ
+    FV_NS = 0x00,       // ä¸ç¡®å®šçš„æ–‡ä»¶ç±»å‹
     FV_FB2 = 0x02,      // FoxBASE
     FV_FB3 = 0x03,      // FoxBASE + / Dbase III plus, no memo
     FV_VFP = 0x30,      // Visual FoxPro
@@ -160,18 +160,18 @@ enum EFV
     FV_MFP2 = 0xF5,     // FoxPro 2.x(or earlier) with memo
     FV_FP = 0xFB,       // FoxBASE
 };
-// DBFÍ·(32×Ö½Ú)
+// DBFå¤´(32å­—èŠ‚)
 class TDbfHeader
 {
 public:
-    char            cVer;           // °æ±¾±êÖ¾
-    unsigned char   cYy;            // ×îºó¸üĞÂÄê
-    unsigned char   cMm;            // ×îºó¸üĞÂÔÂ
-    unsigned char   cDd;            // ×îºó¸üÈÕ
-    unsigned int    nRecNum;        // ÎÄ¼ş°üº¬µÄ×Ü¼ÇÂ¼Êı
-    unsigned short  nHeaderLen;     // ÎÄ¼şÍ·³¤¶È
-    unsigned short  nRecLen;        // ¼ÇÂ¼³¤¶È
-    char            szReserved[20]; // ±£Áô
+    char            cVer;           // ç‰ˆæœ¬æ ‡å¿—
+    unsigned char   cYy;            // æœ€åæ›´æ–°å¹´
+    unsigned char   cMm;            // æœ€åæ›´æ–°æœˆ
+    unsigned char   cDd;            // æœ€åæ›´æ—¥
+    unsigned int    nRecNum;        // æ–‡ä»¶åŒ…å«çš„æ€»è®°å½•æ•°
+    unsigned short  nHeaderLen;     // æ–‡ä»¶å¤´é•¿åº¦
+    unsigned short  nRecLen;        // è®°å½•é•¿åº¦
+    char            szReserved[20]; // ä¿ç•™
 
     TDbfHeader()
     {
@@ -186,29 +186,29 @@ public:
         memset(szReserved, 0, sizeof(szReserved));
     }
 };
-// ×Ö¶Î
+// å­—æ®µ
 class TDbfField
 {
 public:
-    // ×Ö¶ÎÃû
+    // å­—æ®µå
     char szName[11];
-    // ×Ö¶ÎÀàĞÍ£¬ÊÇASCIIÂëÖµ
-    // B-¶ş½øÖÆ C-×Ö·ûĞÍ D-ÈÕÆÚÀàĞÍYYYYMMDD G-¸÷ÖÖ×Ö·û N-ÊıÖµĞÍ L-Âß¼­ĞÔ M-¸÷ÖÖ×Ö·û
+    // å­—æ®µç±»å‹ï¼Œæ˜¯ASCIIç å€¼
+    // B-äºŒè¿›åˆ¶ C-å­—ç¬¦å‹ D-æ—¥æœŸç±»å‹YYYYMMDD G-å„ç§å­—ç¬¦ N-æ•°å€¼å‹ L-é€»è¾‘æ€§ M-å„ç§å­—ç¬¦
     unsigned char cType;
-    // ±£Áô×Ö½Ú£¬ÓÃÓÚÒÔºóÌí¼ÓĞÂµÄËµÃ÷ĞÔĞÅÏ¢Ê±Ê¹ÓÃ£¬ÕâÀïÓÃ0À´ÌîĞ´
+    // ä¿ç•™å­—èŠ‚ï¼Œç”¨äºä»¥åæ·»åŠ æ–°çš„è¯´æ˜æ€§ä¿¡æ¯æ—¶ä½¿ç”¨ï¼Œè¿™é‡Œç”¨0æ¥å¡«å†™
     unsigned int nReserved1;
-    // ¼ÇÂ¼Ïî³¤¶È£¬¶ş½øÖÆĞÍ
+    // è®°å½•é¡¹é•¿åº¦ï¼ŒäºŒè¿›åˆ¶å‹
     unsigned char cLength;
-    // ¼ÇÂ¼ÏîµÄ¾«¶È£¬¶ş½øÖÆĞÍ
+    // è®°å½•é¡¹çš„ç²¾åº¦ï¼ŒäºŒè¿›åˆ¶å‹
     unsigned char cPrecisionLength;
-    // ±£Áô×Ö½Ú£¬ÓÃÓÚÒÔºóÌí¼ÓĞÂµÄËµÃ÷ĞÔĞÅÏ¢Ê±Ê¹ÓÃ£¬ÕâÀïÓÃ0À´ÌîĞ´
-    // ±¾³ÌĞòÔÚ´ò¿ªÎÄ¼şÊ±£¬¼ÇÂ¼¶ÔÓ¦×Ö¶ÎµÄÆäÊµÆ«ÒÆÖµ
+    // ä¿ç•™å­—èŠ‚ï¼Œç”¨äºä»¥åæ·»åŠ æ–°çš„è¯´æ˜æ€§ä¿¡æ¯æ—¶ä½¿ç”¨ï¼Œè¿™é‡Œç”¨0æ¥å¡«å†™
+    // æœ¬ç¨‹åºåœ¨æ‰“å¼€æ–‡ä»¶æ—¶ï¼Œè®°å½•å¯¹åº”å­—æ®µçš„å…¶å®åç§»å€¼
     unsigned short nPosition;
-    // ¹¤×÷ÇøID
+    // å·¥ä½œåŒºID
     unsigned char cWorkId;
-    // ±£Áô×Ö½Ú£¬ÓÃÓÚÒÔºóÌí¼ÓĞÂµÄËµÃ÷ĞÔĞÅÏ¢Ê±Ê¹ÓÃ£¬ÕâÀïÓÃ0À´ÌîĞ´
+    // ä¿ç•™å­—èŠ‚ï¼Œç”¨äºä»¥åæ·»åŠ æ–°çš„è¯´æ˜æ€§ä¿¡æ¯æ—¶ä½¿ç”¨ï¼Œè¿™é‡Œç”¨0æ¥å¡«å†™
     char szReserved[10];
-    // MDX±êÊ¶¡£Èç¹û´æÔÚÒ»¸öMDX ¸ñÊ½µÄË÷ÒıÎÄ¼ş£¬ÄÇÃ´Õâ¸ö¼ÇÂ¼ÏîÎªÕæ£¬·ñÔòÎª¿Õ
+    // MDXæ ‡è¯†ã€‚å¦‚æœå­˜åœ¨ä¸€ä¸ªMDX æ ¼å¼çš„ç´¢å¼•æ–‡ä»¶ï¼Œé‚£ä¹ˆè¿™ä¸ªè®°å½•é¡¹ä¸ºçœŸï¼Œå¦åˆ™ä¸ºç©º
     char cMdxFlag;
 
     TDbfField()
@@ -225,7 +225,7 @@ public:
         cMdxFlag = 0;
     }
 };
-// ¼ÇÂ¼ĞĞ»º´æ
+// è®°å½•è¡Œç¼“å­˜
 class CRecordBuf
 {
 public:
@@ -245,19 +245,19 @@ public:
         m_pBuf = NULL;
     }
 
-    // ·µ»Ø¼ÇÂ¼Êı
+    // è¿”å›è®°å½•æ•°
     inline size_t Size()
     {
         return m_nRecNum;
     }
 
-    // Êı¾İÇøÄÚ´æ´óĞ¡
+    // æ•°æ®åŒºå†…å­˜å¤§å°
     inline size_t DataSize()
     {
         return RecNum() * RecLen();
     }
 
-    // ×·¼Ó¼ÇÂ¼ĞĞ
+    // è¿½åŠ è®°å½•è¡Œ
     inline bool Push(char* pRec, int nNum)
     {
         if (nNum + m_nRecNum > m_nRecCapacity)
@@ -268,7 +268,7 @@ public:
         return true;
     }
 
-    // »ñÈ¡¼ÇÂ¼ĞĞ
+    // è·å–è®°å½•è¡Œ
     char* At(size_t nIdx)
     {
         if (nIdx >= m_nRecNum)
@@ -278,10 +278,10 @@ public:
         return &m_pBuf[nIdx * m_nRecLen];
     }
 
-    // ĞŞ¸Ä¶ÔÏó´óĞ¡
+    // ä¿®æ”¹å¯¹è±¡å¤§å°
     void Resize(size_t nNum)
     {
-        // ¼õĞ¡
+        // å‡å°
         if (nNum < m_nRecCapacity)
         {
             m_nRecCapacity = nNum;
@@ -290,30 +290,30 @@ public:
         {
             m_nRecNum = nNum;
         }
-        // À©´ó
+        // æ‰©å¤§
         if (nNum > m_nRecCapacity)
         {
             char* pBuf = new char[nNum * m_nRecLen];
             memset(pBuf, 0, nNum * m_nRecLen);
             memcpy(pBuf, m_pBuf, m_nRecCapacity*m_nRecLen);
             m_nRecCapacity = nNum;
-            // ÄÚ´æ´¦Àí
+            // å†…å­˜å¤„ç†
             delete m_pBuf;
             m_pBuf = pBuf;
         }
     }
 
-    // ÊÇ·ñÎª¿Õ
+    // æ˜¯å¦ä¸ºç©º
     bool IsEmpty()
     {
         return m_nRecNum == 0;
     }
-    // ·µ»Ø»º´æ´óĞ¡
+    // è¿”å›ç¼“å­˜å¤§å°
     size_t BufSize()
     {
         return m_nRecCapacity * m_nRecLen;
     }
-    // ÉèÖÃµ±Ç°ĞĞ£¬´Ó0¿ªÊ¼
+    // è®¾ç½®å½“å‰è¡Œï¼Œä»0å¼€å§‹
     inline bool ReadGo(size_t nRec)
     {
         if (nRec >= m_nRecNum)
@@ -323,7 +323,7 @@ public:
         m_nCurRec = nRec;
         return true;
     }
-    // ÉèÖÃµ±Ç°ĞĞ£¬´Ó0¿ªÊ¼
+    // è®¾ç½®å½“å‰è¡Œï¼Œä»0å¼€å§‹
     inline bool WriteGo(size_t nRec)
     {
         if (nRec >= m_nRecCapacity)
@@ -339,30 +339,30 @@ public:
         m_nCurRec = 0;
         m_nRecNum = 0;
     }
-    // »ñÈ¡µ±Ç°ĞĞÊı¾İ
+    // è·å–å½“å‰è¡Œæ•°æ®
     char* GetCurRow()
     {
         return m_pBuf + m_nCurRec * m_nRecLen;
     }
 
-    // ·µ»ØÊı¾İ
+    // è¿”å›æ•°æ®
     inline char* Data() { return m_pBuf; }
     inline size_t& RecNum() { return m_nRecNum; }
     inline size_t  RecLen() { return m_nRecLen; }
 private:
-    // µ±Ç°¼ÇÂ¼Êı
+    // å½“å‰è®°å½•æ•°
     size_t m_nRecNum;
-    // Ã¿Ìõ¼ÇÂ¼³¤¶È
+    // æ¯æ¡è®°å½•é•¿åº¦
     size_t m_nRecLen;
-    // ¿ÉÈİÄÉ¼ÇÂ¼Êı
+    // å¯å®¹çº³è®°å½•æ•°
     size_t m_nRecCapacity;
-    // Êı¾İ
+    // æ•°æ®
     char* m_pBuf;
-    // µ±Ç°Êı¾İĞĞ
+    // å½“å‰æ•°æ®è¡Œ
     size_t m_nCurRec;
 };
 
-// ¶¨Òå¿çÆ½Ì¨º¯Êı
+// å®šä¹‰è·¨å¹³å°å‡½æ•°
 #ifdef _WIN32
 #define ws_fopen fopen_s
 #define ws_localtime localtime_s
@@ -387,21 +387,21 @@ int ws_localtime(struct tm* const _Tm, time_t const* const _Time)
 class CPDbf : public CIDbf
 {
 public:
-    // ¹¹Ôìº¯Êı
+    // æ„é€ å‡½æ•°
     CPDbf()
         :m_cBlank(' ')
     {
-        // ÎÄ¼ş¾ä±ú
+        // æ–‡ä»¶å¥æŸ„
         m_pFile = NULL;
-        // ±¸×¢ĞÅÏ¢³¤¶È
+        // å¤‡æ³¨ä¿¡æ¯é•¿åº¦
         m_nRemarkLen = 0;
-        // µ±Ç°ĞĞÊı
+        // å½“å‰è¡Œæ•°
         m_nCurRec = 0;
-        // ÎÄ¼şĞĞ»º´æ
+        // æ–‡ä»¶è¡Œç¼“å­˜
         m_pWriteBuf = NULL;
         m_pReadBuf = NULL;
         m_bReadOnly = true;
-        // »ñÈ¡µ±Ç°ÄêÔÂÈÕ
+        // è·å–å½“å‰å¹´æœˆæ—¥
         int nY = 0, nM = 0, nD = 0;
         GetCurDate(nY, nM, nD);
         m_cYear = nY;
@@ -413,13 +413,13 @@ public:
         Close();
     }
 
-    // ÅĞ¶ÏÎÄ¼şÊÇ·ñ´ò¿ª
+    // åˆ¤æ–­æ–‡ä»¶æ˜¯å¦æ‰“å¼€
     inline bool IsOpen() { return m_pFile != NULL; }
 
-    // ´ò¿ªÎÄ¼ş
+    // æ‰“å¼€æ–‡ä»¶
     int Open(const std::string& strFile, bool bReadOnly = true)
     {
-        // ¼ì²éÊÇ·ñÒÑ´ò¿ª
+        // æ£€æŸ¥æ˜¯å¦å·²æ‰“å¼€
         if (IsOpen())
         {
             return DBF_SUCC;
@@ -429,37 +429,37 @@ public:
         {
             return DBF_FILE_ERROR;
         }
-        // ¶ÁÈ¡ÎÄ¼şÍ·ĞÅÏ¢
+        // è¯»å–æ–‡ä»¶å¤´ä¿¡æ¯
         if (ReadHeader())
         {
             return DBF_FILE_ERROR;
         }
-        // ¶ÁÈ¡×Ö¶ÎĞÅÏ¢
+        // è¯»å–å­—æ®µä¿¡æ¯
         if (ReadField())
         {
             return DBF_FILE_ERROR;
         }
 
-        // ±äÁ¿³õÊ¼»¯
+        // å˜é‡åˆå§‹åŒ–
         m_nCurRec = 0;
         m_strFilePath = strFile;
         return DBF_SUCC;
     }
 
-    // »ñÈ¡×Ö¶ÎĞÅÏ¢
+    // è·å–å­—æ®µä¿¡æ¯
     std::vector<TDbfField> GetField() { return m_vecField; }
 
-    // ¹Ø±ÕDBFÎÄ¼ş
+    // å…³é—­DBFæ–‡ä»¶
     void Close()
     {
-        // ¹Ø±ÕÎÄ¼ş¾ä±ú
+        // å…³é—­æ–‡ä»¶å¥æŸ„
         if (m_pFile)
         {
             fclose(m_pFile);
             m_pFile = NULL;
         }
 
-        // ÄÚ´æÇåÀí
+        // å†…å­˜æ¸…ç†
         delete m_pWriteBuf;
         m_pWriteBuf = NULL;
 
@@ -467,10 +467,10 @@ public:
         m_pReadBuf = NULL;
     }
 
-    // ´´½¨ÎÄ¼ş,×Ö¶ÎÖµµÄÃû³Æ¡¢³¤¶È¼°ÀàĞÍÊÇ±ØÌîÏî
+    // åˆ›å»ºæ–‡ä»¶,å­—æ®µå€¼çš„åç§°ã€é•¿åº¦åŠç±»å‹æ˜¯å¿…å¡«é¡¹
     virtual int Create(const std::string& strFile, const std::vector<TDbfField>& vecField)
     {
-        // ÉèÖÃÍ·ĞÅÏ¢
+        // è®¾ç½®å¤´ä¿¡æ¯
         TDbfHeader oHeader;
         std::map<std::string, size_t> mapField;
         std::vector<TDbfField> vecNewField = vecField;
@@ -479,18 +479,18 @@ public:
         oHeader.cYy = m_cYear;
         oHeader.cMm = m_cMonth;
         oHeader.cDd = m_cDay;
-        // Í·+32*×Ö¶ÎÊı+1
+        // å¤´+32*å­—æ®µæ•°+1
         oHeader.nHeaderLen = (unsigned short)(sizeof(TDbfHeader) + 32 * vecNewField.size() + 1);
         oHeader.nRecLen = 1;
         for (size_t i = 0; i < vecNewField.size(); i++)
         {
-            // ÒÔ¼ÆËãµÄÆ«ÒÆÖµÎª×¼
+            // ä»¥è®¡ç®—çš„åç§»å€¼ä¸ºå‡†
             vecNewField[i].nPosition = oHeader.nRecLen;
             oHeader.nRecLen += vecNewField[i].cLength;
             mapField.insert(std::pair<std::string, size_t>(vecNewField[i].szName, i));
         }
 
-        // ĞÂ½¨ÎÄ¼ş
+        // æ–°å»ºæ–‡ä»¶
         Close();
         FILE* pFile = NULL;
         if (NewFile(strFile, oHeader, vecNewField, &pFile))
@@ -498,7 +498,7 @@ public:
             return DBF_ERROR;
         }
 
-        // ÉèÖÃ³ÉÔ±±äÁ¿Öµ
+        // è®¾ç½®æˆå‘˜å˜é‡å€¼
         m_bReadOnly = false;
         m_oHeader = oHeader;
         m_vecField = vecNewField;
@@ -509,26 +509,26 @@ public:
         m_nRemarkLen = GetRemarkSize(m_oHeader.cVer);
         return DBF_SUCC;
     }
-    // ×·¼ÓÊı¾İ
+    // è¿½åŠ æ•°æ®
     int Append(CPDbf& oDbf)
     {
-        // ¸ñÊ½Ğ£Ñé
+        // æ ¼å¼æ ¡éªŒ
         if (oDbf.m_oHeader.nHeaderLen != m_oHeader.nHeaderLen || oDbf.m_oHeader.nRecLen != m_oHeader.nRecLen)
         {
             return DBF_PARA_ERROR;
         }
-        // ¶ÁÈ¡»º´æÊı¾İ
+        // è¯»å–ç¼“å­˜æ•°æ®
         if (oDbf.Read(0, oDbf.GetRecNum()))
         {
             return DBF_ERROR;
         }
 
-        // ×·¼ÓÊı¾İ
+        // è¿½åŠ æ•°æ®
         if (Go(m_oHeader.nRecNum))
         {
             return DBF_ERROR;
         }
-        // Ğ´ÈëÊı¾İ¼ÇÂ¼
+        // å†™å…¥æ•°æ®è®°å½•
         CRecordBuf* pBuf = oDbf.m_pReadBuf;
         size_t nAppendSize = pBuf->Size() * pBuf->RecLen();
         size_t nWrite = _write(pBuf->Data(), 1, nAppendSize);
@@ -537,7 +537,7 @@ public:
             return DBF_ERROR;
         }
 
-        // ¸üĞÂÍ·Êı¾İ
+        // æ›´æ–°å¤´æ•°æ®
         m_oHeader.nRecNum += pBuf->Size();
         m_oHeader.cYy = m_cYear;
         m_oHeader.cMm = m_cMonth;
@@ -546,12 +546,12 @@ public:
         {
             return DBF_ERROR;
         }
-        // µ±Ç°ĞĞ¸üĞÂ
+        // å½“å‰è¡Œæ›´æ–°
         m_nCurRec = m_oHeader.nRecNum;
         return DBF_SUCC;
     }
 
-    // Çå¿ÕÊı¾İ
+    // æ¸…ç©ºæ•°æ®
     int Zap()
     {
         if (!IsOpen() || m_bReadOnly)
@@ -559,26 +559,26 @@ public:
             return DBF_ERROR;
         }
 
-        // ÉèÖÃÍ·ĞÅÏ¢
+        // è®¾ç½®å¤´ä¿¡æ¯
         m_oHeader.cYy = m_cYear;
         m_oHeader.cMm = m_cMonth;
         m_oHeader.cDd = m_cDay;
         m_oHeader.nRecNum = 0;
 
-        // ĞÂ½¨ÎÄ¼ş
+        // æ–°å»ºæ–‡ä»¶
         fclose(m_pFile);
         m_pFile = NULL;
         if (!NewFile(m_strFilePath, m_oHeader, m_vecField, &m_pFile))
         {
             return DBF_ERROR;
         }
-        // Ä¬ÈÏÖµ
+        // é»˜è®¤å€¼
         m_nCurRec = 0;
         return DBF_SUCC;
     }
 
-    // Ö±½Ó²Ù×÷ÎÄ¼şÀàº¯Êı£¬¼ÇÂ¼ºÅÊ×ĞĞÎª0
-    // °´×Ö·û´®¸ñÊ½¶ÁÈ¡×Ö¶Î
+    // ç›´æ¥æ“ä½œæ–‡ä»¶ç±»å‡½æ•°ï¼Œè®°å½•å·é¦–è¡Œä¸º0
+    // æŒ‰å­—ç¬¦ä¸²æ ¼å¼è¯»å–å­—æ®µ
     virtual std::string ReadString(size_t nRecNo, const std::string& strName)
     {
         std::string strValue;
@@ -594,7 +594,7 @@ public:
         ReadField(nRecNo, nSeq, strValue);
         return strValue;
     }
-    // °´×Ö·û´®¸ñÊ½Ğ´Èë×Ö¶Î
+    // æŒ‰å­—ç¬¦ä¸²æ ¼å¼å†™å…¥å­—æ®µ
     virtual int WriteString(size_t nRecNo, const std::string& strName, const std::string& strValue)
     {
         if (!IsOpen() || nRecNo >= m_oHeader.nRecNum || m_bReadOnly)
@@ -608,7 +608,7 @@ public:
         }
         return WriteField(nRecNo, nSeq, strValue);
     }
-    // °´×Ö·û´®¸ñÊ½¶ÁÈ¡×Ö¶Î
+    // æŒ‰å­—ç¬¦ä¸²æ ¼å¼è¯»å–å­—æ®µ
     virtual int ReadField(size_t nRecNo, size_t nCol, std::string& strValue)
     {
         if (!IsOpen() || nRecNo >= m_oHeader.nRecNum || nCol>=m_vecField.size())
@@ -616,10 +616,10 @@ public:
             return DBF_PARA_ERROR;
         }
         int nRet = DBF_ERROR;
-        // ¼ÆËãÄ¿±ê¼ÇÂ¼ĞĞµÄÎ»ÖÃ
+        // è®¡ç®—ç›®æ ‡è®°å½•è¡Œçš„ä½ç½®
         TDbfField& oField = m_vecField[nCol];
         size_t nCurOffset = RecordOffset() + nRecNo * m_oHeader.nRecLen + oField.nPosition;
-        // ÇĞ»»µ½¶ÔÓ¦ÎÄ¼ş¼ÇÂ¼ĞĞ
+        // åˆ‡æ¢åˆ°å¯¹åº”æ–‡ä»¶è®°å½•è¡Œ
         char* pField = new char[oField.nPosition];
         fseek(m_pFile, nCurOffset, SEEK_SET);
         size_t nRead = fread(pField, 1, oField.cLength, m_pFile);
@@ -631,14 +631,14 @@ public:
         delete[] pField;
         return nRet;
     }
-    // ÔÚÎÄ¼şºó×·¼Ó¼ÇÂ¼Êı£¬nAppendNumÖ¸¶¨ĞÂÔöµÄĞĞÊı
+    // åœ¨æ–‡ä»¶åè¿½åŠ è®°å½•æ•°ï¼ŒnAppendNumæŒ‡å®šæ–°å¢çš„è¡Œæ•°
     virtual int Append(size_t nAppendNum)
     {
         if (!IsOpen() || m_bReadOnly)
         {
             return DBF_PARA_ERROR;
         }
-        // ·ÖÅäÄÚ´æ
+        // åˆ†é…å†…å­˜
         CRecordBuf oBuf(nAppendNum, m_oHeader.nRecLen);
         size_t nCurOffset = FileSize() - 1;
         fseek(m_pFile, nCurOffset, SEEK_SET);
@@ -648,14 +648,14 @@ public:
             return DBF_ERROR;
         }
         
-        // ¸üĞÂÍ·
+        // æ›´æ–°å¤´
         m_oHeader.nRecNum += nAppendNum;
         if (WriteHeader() != DBF_SUCC)
         {
             return DBF_ERROR;
         }
 
-        // ¸üĞÂÎÄ¼ş½áÊø±êÖ¾
+        // æ›´æ–°æ–‡ä»¶ç»“æŸæ ‡å¿—
         if (WriteEndFlag())
         {
             return DBF_ERROR;
@@ -663,22 +663,22 @@ public:
         return DBF_SUCC;
     }
 
-    // Ğ´×Ö·û´®×Ö¶ÎÊı¾İ 
+    // å†™å­—ç¬¦ä¸²å­—æ®µæ•°æ® 
     virtual int WriteField(size_t nRecNo, size_t nCol, const std::string& strValue)
     {
         if (!IsOpen() || nRecNo >= m_oHeader.nRecNum || nCol >= m_vecField.size() || m_bReadOnly)
         {
             return DBF_PARA_ERROR;
         }
-        // ¼ÆËãÄ¿±ê¼ÇÂ¼ĞĞµÄÎ»ÖÃ
+        // è®¡ç®—ç›®æ ‡è®°å½•è¡Œçš„ä½ç½®
         TDbfField& oField = m_vecField[nCol];
         size_t nCurOffset = RecordOffset() + nRecNo * m_oHeader.nRecLen  + oField.nPosition;
         char* pField = new char[oField.cLength];
         memset(pField, m_cBlank, oField.cLength);
         memcpy(pField, strValue.c_str(), MMin(oField.cLength, strValue.size()));
-        // ÇĞ»»µ½¶ÔÓ¦ÎÄ¼ş¼ÇÂ¼ĞĞ
+        // åˆ‡æ¢åˆ°å¯¹åº”æ–‡ä»¶è®°å½•è¡Œ
         fseek(m_pFile, nCurOffset, SEEK_SET);
-        // Ğ´×Ö¶ÎÊı¾İ
+        // å†™å­—æ®µæ•°æ®
         size_t nWrite = fwrite(pField, 1, oField.cLength, m_pFile);
         delete[] pField;
         if (nWrite != oField.cLength)
@@ -688,25 +688,25 @@ public:
         return DBF_SUCC;
     }
 
-    // ÎÄ¼ş¼ÇÂ¼ĞĞ
+    // æ–‡ä»¶è®°å½•è¡Œ
     inline size_t GetRecNum() { return m_oHeader.nRecNum; }
-    // ×Ö¶ÎÊı
+    // å­—æ®µæ•°
     inline size_t GetFieldNum() { return m_vecField.size(); }
 
-    // ¶ÁÈ¡¼ÇÂ¼ĞĞµ½»º´æ
+    // è¯»å–è®°å½•è¡Œåˆ°ç¼“å­˜
     int Read(int nRecNo, int nRecNum)
     {
         if (!IsOpen())
         {
             return DBF_FILE_ERROR;
         }
-        // ¼ì²éÌø×ª¼ÇÂ¼ĞĞ
+        // æ£€æŸ¥è·³è½¬è®°å½•è¡Œ
         if (!IsValidRecNo(nRecNo + nRecNum) || Go(nRecNo))
         {
             return DBF_PARA_ERROR;
         }
         size_t nSize = nRecNum * m_oHeader.nRecLen;
-        // Èç¹ûµ±Ç°¶Á»º´æ²»¹»£¬Ïú»Ù¶Á»º´æ
+        // å¦‚æœå½“å‰è¯»ç¼“å­˜ä¸å¤Ÿï¼Œé”€æ¯è¯»ç¼“å­˜
         if (m_pReadBuf)
         {
             if (nSize > m_pReadBuf->BufSize())
@@ -715,7 +715,7 @@ public:
                 m_pReadBuf = NULL;
             }
         }
-        // ·ÖÅä¶ÁÄÚ´æ
+        // åˆ†é…è¯»å†…å­˜
         if (!m_pReadBuf)
         {
             m_pReadBuf = new CRecordBuf(nRecNum, m_oHeader.nRecLen);
@@ -729,7 +729,7 @@ public:
         return DBF_SUCC;
     }
 
-    // ÉèÖÃ¶ÁÖ¸Õë, ´Ó0¿ªÊ¼, »º´æ¼ÇÂ¼ĞĞĞĞÊı
+    // è®¾ç½®è¯»æŒ‡é’ˆ, ä»0å¼€å§‹, ç¼“å­˜è®°å½•è¡Œè¡Œæ•°
     int ReadGo(int nRec)
     {
         if (!IsOpen())
@@ -747,7 +747,7 @@ public:
         return DBF_SUCC;
     }
 
-    // ¶ÁÈ¡×Ö¶Î,°´×Ö¶ÎÃû
+    // è¯»å–å­—æ®µ,æŒ‰å­—æ®µå
     virtual std::string ReadString(const std::string& strName)
     {
         std::string strValue;
@@ -825,7 +825,7 @@ public:
         }
         return ReadLong(nSeq, nValue);
     }
-    // ¶ÁÈ¡×Ö¶Î£¬°´×Ö¶ÎºÅ
+    // è¯»å–å­—æ®µï¼ŒæŒ‰å­—æ®µå·
     int ReadString(size_t nCol, std::string& strValue)
     {
         if (!IsOpen())
@@ -881,20 +881,20 @@ public:
         return DBF_SUCC;
     }
 
-    // ÉêÇëĞ´ÈëÊı¾İ
+    // ç”³è¯·å†™å…¥æ•°æ®
     int PrepareAppend(size_t nRecNum)
     {
         if (!IsOpen())
         {
             return DBF_FILE_ERROR;
         }
-        // ¼ì²éÌø×ª¼ÇÂ¼ĞĞ
+        // æ£€æŸ¥è·³è½¬è®°å½•è¡Œ
         if (nRecNum == 0)
         {
             return DBF_PARA_ERROR;
         }
         size_t nSize = nRecNum * m_oHeader.nRecLen;
-        // Èç¹ûĞ´¶Á»º´æ²»¹»£¬Ïú»Ù»º´æ
+        // å¦‚æœå†™è¯»ç¼“å­˜ä¸å¤Ÿï¼Œé”€æ¯ç¼“å­˜
         if (m_pWriteBuf)
         {
             if (nSize > m_pWriteBuf->BufSize())
@@ -903,7 +903,7 @@ public:
                 m_pWriteBuf = NULL;
             }
         }
-        // ·ÖÅä¶ÁÄÚ´æ
+        // åˆ†é…è¯»å†…å­˜
         if (!m_pWriteBuf)
         {
             m_pWriteBuf = new CRecordBuf(nRecNum, m_oHeader.nRecLen);
@@ -912,7 +912,7 @@ public:
         return DBF_SUCC;
     }
 
-    // Ìá½»Ğ´Êı¾İÊı¾İµ½ÎÄ¼ş
+    // æäº¤å†™æ•°æ®æ•°æ®åˆ°æ–‡ä»¶
     int WriteCommit()
     {
         if (!IsOpen())
@@ -929,18 +929,18 @@ public:
             return DBF_PARA_ERROR;
         }
 
-        // Ğ´»º´æ²»Îª¿Õ£¬¿½±´Êı¾İ
+        // å†™ç¼“å­˜ä¸ä¸ºç©ºï¼Œæ‹·è´æ•°æ®
         if (m_pWriteBuf->IsEmpty())
         {
             return DBF_SUCC;
         }
 
-        // ÉèÖÃĞ´Ö¸Õë
+        // è®¾ç½®å†™æŒ‡é’ˆ
         if (Go(m_oHeader.nRecNum))
         {
             return DBF_ERROR;
         }
-        // Ğ´ÈëÊı¾İ¼ÇÂ¼
+        // å†™å…¥æ•°æ®è®°å½•
         size_t nAppendSize = m_pWriteBuf->Size() * m_pWriteBuf->RecLen();
         size_t nWrite = _write(m_pWriteBuf->Data(), 1, nAppendSize);
         if (nAppendSize != nWrite)
@@ -948,7 +948,7 @@ public:
             return DBF_ERROR;
         }
 
-        // ¸üĞÂÍ·Êı¾İ
+        // æ›´æ–°å¤´æ•°æ®
         m_oHeader.nRecNum += m_pWriteBuf->Size();
         m_oHeader.cYy = m_cYear;
         m_oHeader.cMm = m_cMonth;
@@ -957,18 +957,18 @@ public:
         {
             return DBF_ERROR;
         }
-        // µ±Ç°ĞĞ¸üĞÂ
+        // å½“å‰è¡Œæ›´æ–°
         m_nCurRec = m_oHeader.nRecNum;
         return DBF_SUCC;
     }
-    // Ìá½»Ğ´ÈëµÄÊı¾İµ½ÎÄ¼ş
+    // æäº¤å†™å…¥çš„æ•°æ®åˆ°æ–‡ä»¶
     int FileCommit()
     {
         if (!IsOpen() || m_bReadOnly)
         {
             return DBF_PARA_ERROR;
         }
-        // Ğ´ÈëÎÄ¼ş½áÊø±êÖ¾
+        // å†™å…¥æ–‡ä»¶ç»“æŸæ ‡å¿—
         if (WriteEndFlag())
         {
             return DBF_ERROR;
@@ -976,7 +976,7 @@ public:
         return DBF_SUCC;
     }
 
-    // ÉèÖÃĞ´Ö¸Õë, ´Ó0¿ªÊ¼, »º´æ¼ÇÂ¼ĞĞĞĞÊı
+    // è®¾ç½®å†™æŒ‡é’ˆ, ä»0å¼€å§‹, ç¼“å­˜è®°å½•è¡Œè¡Œæ•°
     int WriteGo(int nRec)
     {
         if (!IsOpen())
@@ -994,7 +994,7 @@ public:
         return DBF_SUCC;
     }
 
-    // ¸ù¾İ×Ö¶ÎÃûĞ´×Ö¶ÎÊı¾İ
+    // æ ¹æ®å­—æ®µåå†™å­—æ®µæ•°æ®
     int WriteString(const std::string& strName, const std::string& strValue)
     {
         if (!IsOpen())
@@ -1002,10 +1002,6 @@ public:
             return DBF_FILE_ERROR;
         }
         size_t nSeq = FindField(strName);
-        if (nSeq >= m_vecField.size())
-        {
-            return DBF_PARA_ERROR;
-        }
         return WriteString(nSeq, strValue);
     }
     int WriteDouble(const std::string& strName, double fValue)
@@ -1015,10 +1011,6 @@ public:
             return DBF_FILE_ERROR;
         }
         size_t nSeq = FindField(strName);
-        if (nSeq >= m_vecField.size())
-        {
-            return DBF_PARA_ERROR;
-        }
         return WriteDouble(nSeq, fValue);
     }
     int WriteInt(const std::string& strName, int nValue)
@@ -1028,10 +1020,6 @@ public:
             return DBF_FILE_ERROR;
         }
         size_t nSeq = FindField(strName);
-        if (nSeq >= m_vecField.size())
-        {
-            return DBF_PARA_ERROR;
-        }
         return WriteInt(nSeq, nValue);
     }
     int WriteLong(const std::string& strName, long nValue)
@@ -1041,18 +1029,18 @@ public:
             return DBF_FILE_ERROR;
         }
         size_t nSeq = FindField(strName);
-        if (nSeq >= m_vecField.size())
-        {
-            return DBF_PARA_ERROR;
-        }
         return WriteLong(nSeq, nValue);
     }
-    // ¸ù¾İË÷ÒıĞ´
+    // æ ¹æ®ç´¢å¼•å†™
     int WriteString(size_t nCol, const std::string& strValue)
     {
         if (!IsOpen())
         {
             return DBF_FILE_ERROR;
+        }
+        if (nCol >= m_vecField.size())
+        {
+            return DBF_PARA_ERROR;
         }
         return WriteField(nCol, strValue);
     }
@@ -1101,7 +1089,7 @@ public:
     }
 
 protected:
-    // Ìø×ªµ½Ö¸¶¨ĞĞ£¬´Ó0¿ªÊ¼
+    // è·³è½¬åˆ°æŒ‡å®šè¡Œï¼Œä»0å¼€å§‹
     int Go(int nRec)
     {
         int nRet = DBF_SUCC;
@@ -1109,31 +1097,31 @@ protected:
         {
             return DBF_FILE_ERROR;
         }
-        // Ğ£ÑéĞĞÊÇ·ñÕıÈ·
+        // æ ¡éªŒè¡Œæ˜¯å¦æ­£ç¡®
         if (!IsValidRecNo(nRec))
         {
             return DBF_PARA_ERROR;
         }
-        // ÉèÖÃ¼ÇÂ¼ĞĞ
+        // è®¾ç½®è®°å½•è¡Œ
         m_nCurRec = nRec;
         return nRet;
     }
 
-    // ¶ÁÈ¡Êı¾İÔ­Ê¼×Ö¶Î
+    // è¯»å–æ•°æ®åŸå§‹å­—æ®µ
     int ReadField(const std::string& strName, std::string& strValue)
     {
         if (!m_pReadBuf || m_pReadBuf->IsEmpty())
         {
             return DBF_ERROR;
         }
-        // »ñÈ¡×Ö¶ÎÎ»ÖÃ
+        // è·å–å­—æ®µä½ç½®
         size_t nField = FindField(strName);
         return ReadField(nField, strValue);
     }
     int ReadField(size_t nField, std::string& strValue)
     {
         int nRet = DBF_SUCC;
-        // ¼ì²é×Ö¶ÎÎ»ÖÃ
+        // æ£€æŸ¥å­—æ®µä½ç½®
         if (nField >= m_vecField.size())
         {
             return DBF_PARA_ERROR;
@@ -1142,38 +1130,38 @@ protected:
         {
             return DBF_ERROR;
         }
-        // »ñÈ¡×Ö¶ÎĞÅÏ¢
+        // è·å–å­—æ®µä¿¡æ¯
         char* pField = m_pReadBuf->GetCurRow() + m_vecField[nField].nPosition;
         strValue = std::string(pField, m_vecField[nField].cLength);
         return nRet;
     }
 
-    // Ğ´Êı¾İ×Ö¶ÎĞÅÏ¢
+    // å†™æ•°æ®å­—æ®µä¿¡æ¯
     int WriteField(const std::string& strName, const std::string& strValue)
     {
         if (!m_pWriteBuf)
         {
             return DBF_ERROR;
         }
-        // »ñÈ¡×Ö¶ÎÎ»ÖÃ
+        // è·å–å­—æ®µä½ç½®
         size_t nField = FindField(strName);
         return WriteField(nField, strValue);
     }
     int WriteField(size_t nField, const std::string& strValue)
     {
         int nRet = DBF_SUCC;
-        // ¼ì²é×Ö¶ÎÎ»ÖÃ
+        // æ£€æŸ¥å­—æ®µä½ç½®
         if (nField >= m_vecField.size())
         {
             return DBF_PARA_ERROR;
         }
-        // »ñÈ¡×Ö¶ÎĞÅÏ¢
+        // è·å–å­—æ®µä¿¡æ¯
         char* pField = m_pWriteBuf->GetCurRow();
         pField += m_vecField[nField].nPosition;
         size_t nMaxFieldSize = m_vecField[nField].cLength;
-        // ÖÃ×Ö¶ÎÎª¿Õ
+        // ç½®å­—æ®µä¸ºç©º
         memset(pField, m_cBlank, nMaxFieldSize);
-        // ¿½±´×Ö¶ÎÊı¾İ
+        // æ‹·è´å­—æ®µæ•°æ®
         size_t nSize = MMin(nMaxFieldSize, strValue.size());
         if (!memcpy(pField, strValue.c_str(), nSize))
         {
@@ -1182,7 +1170,7 @@ protected:
         return nRet;
     }
 
-    // ÅĞ¶ÏĞĞºÅÊÇ·ñºÏ·¨£¬°üÀ¨ÒÑĞ´ÈëµÄÎÄ¼şĞĞÊı+»º´æĞĞÊı
+    // åˆ¤æ–­è¡Œå·æ˜¯å¦åˆæ³•ï¼ŒåŒ…æ‹¬å·²å†™å…¥çš„æ–‡ä»¶è¡Œæ•°+ç¼“å­˜è¡Œæ•°
     bool IsValidRecNo(unsigned int nNum)
     {
         size_t nRec = nNum;
@@ -1194,7 +1182,7 @@ protected:
         return true;
     }
 
-    // Êı¾İ¼ÇÂ¼ÆğÊ¼Æ«ÒÆÖµ
+    // æ•°æ®è®°å½•èµ·å§‹åç§»å€¼
     size_t RecordOffset()
     {
         assert(IsOpen());
@@ -1202,11 +1190,11 @@ protected:
     }
 
 private:
-    // ¶ÁÈ¡ÎÄ¼şÍ·ĞÅÏ¢
+    // è¯»å–æ–‡ä»¶å¤´ä¿¡æ¯
     int ReadHeader()
     {
         assert(IsOpen());
-        // ¶ÁÈ¡Í·ĞÅÏ¢
+        // è¯»å–å¤´ä¿¡æ¯
         char szHeader[32] = { 0 };
         fseek(m_pFile, SEEK_SET, 0);
         size_t nRead = fread(szHeader, 1, sizeof(m_oHeader), m_pFile);
@@ -1216,11 +1204,11 @@ private:
         }
         memcpy(&m_oHeader, szHeader, sizeof(szHeader));
 
-        // ¸üĞÂ±¸×¢ĞÅÏ¢³¤¶È
+        // æ›´æ–°å¤‡æ³¨ä¿¡æ¯é•¿åº¦
         m_nRemarkLen = GetRemarkSize(m_oHeader.cVer);
         return DBF_SUCC;
     }
-    // »ñÈ¡±¸×¢³¤¶È
+    // è·å–å¤‡æ³¨é•¿åº¦
     size_t GetRemarkSize(char cVer) const
     {
         size_t nRemark = 0;
@@ -1240,18 +1228,18 @@ private:
         return nRemark;
     }
 
-    // ¶ÁÈ¡×Ö¶ÎĞÅÏ¢
+    // è¯»å–å­—æ®µä¿¡æ¯
     int ReadField()
     {
         assert(IsOpen());
-        // ×Ö¶Î×Ü³¤¶È = Í·(32) + n*×Ö¶Î(32) + 1(0x1D)
+        // å­—æ®µæ€»é•¿åº¦ = å¤´(32) + n*å­—æ®µ(32) + 1(0x1D)
         int nFieldLen = m_oHeader.nHeaderLen - sizeof(m_oHeader);
         if (nFieldLen % 32 != 1)
         {
             return DBF_FILE_ERROR;
         }
 
-        // ¶ÁÈ¡×Ö¶ÎĞÅÏ¢
+        // è¯»å–å­—æ®µä¿¡æ¯
         int nRet = DBF_SUCC;
         char* pField = new char[nFieldLen];
         fseek(m_pFile, sizeof(m_oHeader), SEEK_SET);
@@ -1263,40 +1251,40 @@ private:
             return DBF_FILE_ERROR;
         }
 
-        // ½âÎö×Ö¶Î
+        // è§£æå­—æ®µ
         TDbfField oField;
         char* pCur = pField;
         char* pEnd = pField + nFieldLen - sizeof(m_oHeader);
-        // ×Ö¶ÎÆ«ÒÆÖµ´Ó1¿ªÊ¼£¬Ê×Î»Îª±êÖ¾Î»
+        // å­—æ®µåç§»å€¼ä»1å¼€å§‹ï¼Œé¦–ä½ä¸ºæ ‡å¿—ä½
         int nOffset = 1;
         m_vecField.clear();
         m_mapField.clear();
         while (pCur < pEnd)
         {
-            // ¿½±´×Ö¶ÎĞÅÏ¢
+            // æ‹·è´å­—æ®µä¿¡æ¯
             memcpy(&oField, pCur, sizeof(oField));
             pCur += sizeof(oField);
 
-            // ¼ÆËã×Ö¶ÎÆ«ÒÆÖµ
+            // è®¡ç®—å­—æ®µåç§»å€¼
             oField.nPosition = nOffset;
             nOffset += oField.cLength;
 
-            // ±£´æ×Ö¶Î
+            // ä¿å­˜å­—æ®µ
             m_vecField.push_back(oField);
             m_mapField.insert(std::pair<std::string, size_t>(oField.szName, m_vecField.size() - 1));
         }
-        // Ğ£Ñé×îºóÒ»Î»ÊÇ·ñÎª0x0D
+        // æ ¡éªŒæœ€åä¸€ä½æ˜¯å¦ä¸º0x0D
         if (*pCur != 0x0D)
         {
             nRet = DBF_FILE_ERROR;
         }
-        // ÄÚ´æÇåÀí
+        // å†…å­˜æ¸…ç†
         delete[] pField;
         pField = NULL;
         return nRet;
     }
 
-    // »ñÈ¡µ±Ç°Ê±¼ä
+    // è·å–å½“å‰æ—¶é—´
     void GetCurDate(int& nYear, int& nMon, int& nDay)
     {
         time_t t = time(0);
@@ -1308,22 +1296,22 @@ private:
     }
 
 protected:
-    // ¶ÁÈ¡¼ÇÂ¼ĞĞº¯Êı£¬²»ÔÊĞí¿çÎÄ¼şÊı¾İÓë»º´æÊı¾İ¶ÁÈ¡£¬ÇÒ¶ÁÈ¡Êı¾İÊ±±ØĞë°´ĞĞ¶ÁÈ¡
+    // è¯»å–è®°å½•è¡Œå‡½æ•°ï¼Œä¸å…è®¸è·¨æ–‡ä»¶æ•°æ®ä¸ç¼“å­˜æ•°æ®è¯»å–ï¼Œä¸”è¯»å–æ•°æ®æ—¶å¿…é¡»æŒ‰è¡Œè¯»å–
     virtual size_t _read(void* ptr, size_t size, size_t nmemb)
     {
         int nRet = DBF_SUCC;
         assert(IsOpen());
-        // ÅĞ¶ÏĞĞÊı
+        // åˆ¤æ–­è¡Œæ•°
         if (m_nCurRec < m_oHeader.nRecNum)
         {
-            // ¼ÆËãÄ¿±ê¼ÇÂ¼ĞĞµÄÎ»ÖÃ
+            // è®¡ç®—ç›®æ ‡è®°å½•è¡Œçš„ä½ç½®
             size_t nCurOffset = m_nCurRec * m_oHeader.nRecLen + RecordOffset();
 
-            // ÇĞ»»µ½¶ÔÓ¦ÎÄ¼ş¼ÇÂ¼ĞĞ
+            // åˆ‡æ¢åˆ°å¯¹åº”æ–‡ä»¶è®°å½•è¡Œ
             fseek(m_pFile, nCurOffset, SEEK_SET);
             return fread(ptr, size, nmemb, m_pFile);
         }
-        // ´Ó»º´æĞĞ¶ÁÈ¡Êı¾İ£¬Ğ´»º´æĞĞ
+        // ä»ç¼“å­˜è¡Œè¯»å–æ•°æ®ï¼Œå†™ç¼“å­˜è¡Œ
         else if (m_pWriteBuf)
         {
             char* pData = m_pWriteBuf->Data() + (m_nCurRec - m_oHeader.nRecNum)*m_oHeader.nRecLen;
@@ -1342,7 +1330,7 @@ protected:
         }
         return nRet;
     }
-    // Ğ´Èë¼ÇÂ¼ĞĞº¯Êı£¬²»ÔÊĞí¿çÎÄ¼şÊı¾İÓë»º´æÊı¾İ²Ù×÷£¬ÇÒ²Ù×÷Êı¾İÊ±±ØĞë°´ĞĞ
+    // å†™å…¥è®°å½•è¡Œå‡½æ•°ï¼Œä¸å…è®¸è·¨æ–‡ä»¶æ•°æ®ä¸ç¼“å­˜æ•°æ®æ“ä½œï¼Œä¸”æ“ä½œæ•°æ®æ—¶å¿…é¡»æŒ‰è¡Œ
     virtual size_t _write(void* ptr, size_t size, size_t nmemb)
     {
         int nRet = DBF_SUCC;
@@ -1351,17 +1339,17 @@ protected:
         {
             return DBF_PARA_ERROR;
         }
-        // ÅĞ¶ÏĞĞÊı
+        // åˆ¤æ–­è¡Œæ•°
         if (m_nCurRec <= m_oHeader.nRecNum)
         {
-            // ¼ÆËãÄ¿±ê¼ÇÂ¼ĞĞµÄÎ»ÖÃ
+            // è®¡ç®—ç›®æ ‡è®°å½•è¡Œçš„ä½ç½®
             size_t nCurOffset = m_nCurRec * m_oHeader.nRecLen + RecordOffset();
 
-            // ÇĞ»»µ½¶ÔÓ¦¼ÇÂ¼ĞĞ£¬Ğ´ÈëÊı¾İ
+            // åˆ‡æ¢åˆ°å¯¹åº”è®°å½•è¡Œï¼Œå†™å…¥æ•°æ®
             fseek(m_pFile, nCurOffset, SEEK_SET);
             return fwrite(ptr, size, nmemb, m_pFile);
         }
-        // Ğ´Èë
+        // å†™å…¥
         else if (m_pWriteBuf)
         {
             char* pData = m_pWriteBuf->Data() + (m_nCurRec - m_oHeader.nRecNum)*m_oHeader.nRecLen;
@@ -1381,7 +1369,7 @@ protected:
 
         return nRet;
     }
-    // Ğ´ÈëÎÄ¼ş½áÊø±êÖ¾
+    // å†™å…¥æ–‡ä»¶ç»“æŸæ ‡å¿—
     size_t WriteEndFlag()
     {
         int nRet = DBF_SUCC;
@@ -1392,10 +1380,10 @@ protected:
         }
         const char cEndFlag = 0X1A;
 
-        // ¼ÆËãÄ¿±êÎ»ÖÃ
+        // è®¡ç®—ç›®æ ‡ä½ç½®
         size_t nOffset = FileSize() - 1;
 
-        // ÇĞ»»µ½¶ÔÓ¦¼ÇÂ¼ĞĞ£¬Ğ´ÈëÊı¾İ
+        // åˆ‡æ¢åˆ°å¯¹åº”è®°å½•è¡Œï¼Œå†™å…¥æ•°æ®
         fseek(m_pFile, nOffset, SEEK_SET);
         if (fwrite(&cEndFlag, 1, 1, m_pFile) != sizeof(cEndFlag))
         {
@@ -1405,7 +1393,7 @@ protected:
         return nRet;
     }
 
-    // ²éÕÒ×Ö¶ÎÎ»ÖÃ
+    // æŸ¥æ‰¾å­—æ®µä½ç½®
     virtual size_t FindField(const std::string& strField)
     {
         std::map<std::string, size_t>::iterator e = m_mapField.find(strField);
@@ -1416,7 +1404,7 @@ protected:
         return -1;
     }
 
-    // Ğ´Í·Êı¾İµ½ÎÄ¼ş
+    // å†™å¤´æ•°æ®åˆ°æ–‡ä»¶
     int WriteHeader()
     {
         fseek(m_pFile, 0, SEEK_SET);
@@ -1427,14 +1415,14 @@ protected:
         return DBF_SUCC;
     }
 
-    // ·µ»ØÎÄ¼ş´óĞ¡
+    // è¿”å›æ–‡ä»¶å¤§å°
     size_t FileSize()
     {
-        // ÎÄ¼şÍ· + ¼ÇÂ¼Êı¾İ + ÎÄ¼şÎ²°Í
+        // æ–‡ä»¶å¤´ + è®°å½•æ•°æ® + æ–‡ä»¶å°¾å·´
         return RecordOffset() + m_oHeader.nRecNum * m_oHeader.nRecLen + 1;
     }
 
-    // ĞÂ½¨¿ÕÎÄ¼ş
+    // æ–°å»ºç©ºæ–‡ä»¶
     int NewFile(const std::string& strFile, const TDbfHeader& oHeader, const std::vector<TDbfField>& vecField, FILE** ppFile) const
     {
         *ppFile = NULL;
@@ -1445,14 +1433,14 @@ protected:
         }
         FILE* pFile = *ppFile;
 
-        // Ğ´ÈëÍ·
+        // å†™å…¥å¤´
         int nWrite = fwrite(&oHeader, 1, sizeof(oHeader), pFile);
         if (nWrite != sizeof(oHeader))
         {
             fclose(pFile);
             return DBF_FILE_ERROR;
         }
-        // Ğ´Èë×Ö¶ÎĞÅÏ¢
+        // å†™å…¥å­—æ®µä¿¡æ¯
         for (size_t i = 0; i < vecField.size(); i++)
         {
             nWrite = fwrite(&vecField[i], 1, sizeof(vecField[i]), pFile);
@@ -1462,14 +1450,14 @@ protected:
                 return DBF_FILE_ERROR;
             }
         }
-        // Ğ´Èë½áÊø±êÖ¾
+        // å†™å…¥ç»“æŸæ ‡å¿—
         const char cHeadEndFlag = 0X0D;
         if (fwrite(&cHeadEndFlag, 1, sizeof(cHeadEndFlag), pFile) != sizeof(cHeadEndFlag))
         {
             fclose(pFile);
             return DBF_FILE_ERROR;
         }
-        // ±¸×¢ĞÅÏ¢
+        // å¤‡æ³¨ä¿¡æ¯
         size_t nRemarkSize = GetRemarkSize(oHeader.cVer);
         if (nRemarkSize)
         {
@@ -1483,7 +1471,7 @@ protected:
                 return DBF_FILE_ERROR;
             }
         }
-        // ÎÄ¼ş½áÊø
+        // æ–‡ä»¶ç»“æŸ
         //const char cFileEndFlag = 0X1A;
         //if (fwrite(&cFileEndFlag, 1, sizeof(cFileEndFlag), pFile) != sizeof(cFileEndFlag))
         //{
@@ -1494,33 +1482,33 @@ protected:
     }
 
 private:
-    // µ±Ç°ÄêÔÂÈÕ
+    // å½“å‰å¹´æœˆæ—¥
     unsigned char m_cYear;
     unsigned char m_cMonth;
     unsigned char m_cDay;
 
-    // ÎÄ¼ş¶ÔÏó
+    // æ–‡ä»¶å¯¹è±¡
     FILE* m_pFile;
-    // ÎÄ¼şÂ·¾¶
+    // æ–‡ä»¶è·¯å¾„
     std::string m_strFilePath;
-    // ÊÇ·ñÖ»¶Á
+    // æ˜¯å¦åªè¯»
     bool m_bReadOnly;
-    // ÎÄ¼şÍ·ĞÅÏ¢
+    // æ–‡ä»¶å¤´ä¿¡æ¯
     TDbfHeader m_oHeader;
-    // ÎÄ¼ş×Ö¶ÎĞÅÏ¢
+    // æ–‡ä»¶å­—æ®µä¿¡æ¯
     std::vector<TDbfField> m_vecField;
-    // ×Ö¶ÎÃû×Ö
+    // å­—æ®µåå­—
     std::map<std::string, size_t> m_mapField;
-    // ±¸×¢ĞÅÏ¢³¤¶È
+    // å¤‡æ³¨ä¿¡æ¯é•¿åº¦
     size_t m_nRemarkLen;
-    // µ±Ç°ĞĞÊı
+    // å½“å‰è¡Œæ•°
     size_t m_nCurRec;
-    // ¿Õ°××Ö·û
+    // ç©ºç™½å­—ç¬¦
     const char m_cBlank;
 
-    // ÎÄ¼şĞ´¼ÇÂ¼ĞĞ»º´æ£¨Î´±£´æµ½ÎÄ¼şµÄÊı¾İ£©
+    // æ–‡ä»¶å†™è®°å½•è¡Œç¼“å­˜ï¼ˆæœªä¿å­˜åˆ°æ–‡ä»¶çš„æ•°æ®ï¼‰
     CRecordBuf* m_pWriteBuf;
-    // ÎÄ¼ş¶Á¼ÇÂ¼ĞĞ»º´æ£¨½öÓÃÓÚ¶Á£©
+    // æ–‡ä»¶è¯»è®°å½•è¡Œç¼“å­˜ï¼ˆä»…ç”¨äºè¯»ï¼‰
     CRecordBuf* m_pReadBuf;
 };
 
@@ -1535,24 +1523,24 @@ public:
         m_nCurRowDiffs = 0;
     }
 public:
-    // ±È½ÏµÄ×Ö¶Î
+    // æ¯”è¾ƒçš„å­—æ®µ
     std::vector<std::string> m_vecField;
-    // ĞĞ×î´ó²îÒìÖµ
+    // è¡Œæœ€å¤§å·®å¼‚å€¼
     size_t m_nMaxRowDiffs;
-    // ²îÒì×î´óÖµ
+    // å·®å¼‚æœ€å¤§å€¼
     size_t m_nMaxDiffs;
-    // µ±Ç°ÒÑ·¢ÏÖµÄĞĞ²îÒì
+    // å½“å‰å·²å‘ç°çš„è¡Œå·®å¼‚
     size_t m_nCurRowDiffs;
-    // µ±Ç°ÒÑ·¢ÏÖµÄ²îÒì
+    // å½“å‰å·²å‘ç°çš„å·®å¼‚
     size_t m_nCurDiffs;
 
-    // ±È½ÏÁ½¸öBDFÎÄ¼ş£¬²îÒìÔò·µ»Øtrue
+    // æ¯”è¾ƒä¸¤ä¸ªBDFæ–‡ä»¶ï¼Œå·®å¼‚åˆ™è¿”å›true
     bool Cmp(const std::string& strFile1, const std::string& strFile2)
     {
         CPDbf oDbf1;
         CPDbf oDbf2;
 
-        // ´ò¿ªÎÄ¼ş
+        // æ‰“å¼€æ–‡ä»¶
         oDbf1.Open(strFile1, true);
         if (!oDbf1.IsOpen())
         {
@@ -1565,7 +1553,7 @@ public:
             return false;
         }
 
-        // ¶ÁÈ¡×Ö¶Î²¢±È½Ï
+        // è¯»å–å­—æ®µå¹¶æ¯”è¾ƒ
         size_t nRecNum1 = oDbf1.GetRecNum();
         size_t nRecNum2 = oDbf1.GetRecNum();
         size_t nRecNum = MMin(nRecNum1, nRecNum2);
@@ -1577,16 +1565,16 @@ public:
         std::string strBuf2;
         for (size_t i = 0; i < nRecNum; i += nReadNum)
         {
-            // ¼ÆËã¶ÁÈ¡ĞĞÊı
+            // è®¡ç®—è¯»å–è¡Œæ•°
             nReadNum = MMin(nReadNum, nRecNum - i);
 
-            // ¶ÁÈ¡ĞĞ
+            // è¯»å–è¡Œ
             if (oDbf1.Read(i, nReadNum) || oDbf2.Read(i, nReadNum))
             {
                 return false;
             }
 
-            // ×Ö¶Î±È½Ï
+            // å­—æ®µæ¯”è¾ƒ
             for (size_t j = 0; j < nReadNum; j++)
             {
                 bEq = true;
@@ -1610,7 +1598,7 @@ public:
             }
         }
 
-        // ĞĞ²îÒì
+        // è¡Œå·®å¼‚
         if (nRecNum1 != nRecNum2)
         {
             size_t nLineDiff = (MMax(nRecNum1, nRecNum2) - MMin(nRecNum1, nRecNum2));
